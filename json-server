@@ -1,0 +1,36 @@
+#!/system/bin
+
+ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+echo "============================================================"
+
+if [[ -d "database" ]]
+then
+    db=`ls -x database`
+    if [[ $db = "" ]]
+    then
+        echo "Please creata a database json file (Exmaple: users.json) and restart."
+        echo "============================================================"
+        exit 0
+    else
+        echo $db
+    fi
+else
+    mkdir database
+fi
+
+echo "============================================================"
+echo -n "choice your database name: "
+read dbname
+
+echo "============================================================"
+echo -n "Your ip is: "
+echo ${ip}
+echo "============================================================"
+
+if [[ $dbname = "" ]]
+then
+    db=`ls -x database`
+    json-server --watch database/${db} -H ${ip}
+else
+    json-server --watch database/${dbname} -H ${ip}
+fi
