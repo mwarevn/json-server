@@ -8,7 +8,22 @@
   ```
 
 
-- And then run: -
-  ```
-  bash start
-  ```
+#### And then in file package.json
+
+- change:
+
+```
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+```
+
+
+- to:
+
+```
+"scripts": {
+    "start": "bash start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+```
