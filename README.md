@@ -1,4 +1,4 @@
-# Small Tool for json-server
+# Small Tool for [json-server](https://github.com/typicode/json-server#getting-started)
 
 ## Installation
 
