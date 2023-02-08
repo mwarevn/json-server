@@ -3,9 +3,12 @@
 ## Installation
 
 ### Just, run this command
-#### 1. 
-``` npm install -g json-server ```
-#### 2.
+
+
+```
+npm install -g json-server
+```
+
 ```
 git clone https://github.com/mwarevn/json-server.git && mv json-server/json-server start
 ```
