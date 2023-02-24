@@ -6,6 +6,12 @@
 
 
 ```
+npm init
+```
+
+ * Press Enter to skip the setup steps
+
+```
 npm install -g json-server
 ```
 
