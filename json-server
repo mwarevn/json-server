@@ -1,36 +1,73 @@
-#!/system/bin
+#!/bin/bash
 
-ip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
-echo "============================================================"
+# Reset
+Color_Off='\033[0m'       # Text Reset
+# Regular Colors
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+Yellow='\033[0;33m'       # Yellow
+Purple='\033[0;35m'       # Purple
+Cyan='\033[0;36m'         # Cyan
 
-if [[ -d "database" ]]
+echo -e "${Purple}
+
+
+
+
+              ,%%%%%%%%,
+         ,%%%%%'%%,%%%%',
+       ,'%%' %%%%,  '%%%%'
+      %%%%'  ,%%%%%,  '%%%%
+     %%%%   %%%%%%%%%   '%%%
+    %%%%   %%%%%%%%%%%%  '%%
+   %%%%%   '%%%%%%%%%%%%%  '
+   %%%%%%   '%%%%%%%%%%%%%
+   %%%%%%'   '%%%%%%%%%%%%
+   %%%%%%%%,  '%%%%%%%%%%'
+   '%%%%%%%%%%%%%%%%%%%%'
+    '%%%%%%%%%%%%%%%%%'
+      '%%%%%%%%%%%%%'
+        '%%%%%%%%%'
+           '%%%'
+            '
+
+${Color_Off}
+"
+
+# check if the folder exists. If it does not exist, create it.
+if [ ! -d "resources" ]; then
+    mkdir -p "resources"
+    echo -e "${Yellow}[WARNING]${Color_Off} Please move or create 'your_database.json' to folder [resources] and run this script again."
+    exit 1
+# check if in the folder have files *.json. If it does not exist, send a warning
+elif [[ ! `find resources/*.json` ]] 
 then
-    db=`ls -x database`
-    if [[ $db = "" ]]
-    then
-        echo "Please creata a database json file (Exmaple: users.json) and restart."
-        echo "============================================================"
-        exit 0
-    else
-        echo $db
-    fi
-else
-    mkdir database
+    echo -e "${Yellow}[WARNING]${Color_Off} Please move or create 'your_database.json' to folder [resources] and run this script again."
+    exit 1
 fi
 
-echo "============================================================"
-echo -n "choice your database name: "
-read dbname
+assets=(`echo $(find resources/*.json) | sed -e "s/resources\///g"`)
 
-echo "============================================================"
-echo -n "Your ip is: "
-echo ${ip}
-echo "============================================================"
+echo -e "${Cyan}[INFO]${Color_Off} Please choose a database file to start server."
+echo -e "\n"
+count=${#assets[@]}
+for ((i=0;i < count; i++))
+do
+    echo "             [${i}] ${assets[$i]}"
+done
 
-if [[ $dbname = "" ]]
+num=`expr ${#assets[@]} - 1`
+
+echo -e "\n"
+echo -n -e "${Green}[INPUT]${Color_Off} Which file you want to run? [0~$num] > "
+read choose
+
+if [ -z "$choose" ]
 then
-    db=`ls -x database`
-    json-server --watch database/${db} -H ${ip}
+    echo -e "${Yellow}[WARNING]${Color_Off} Please choose a database file to start server."
+elif [ -z ${assets[$choose]} ]
+then
+    echo -e "${Red}[WARNING]${Color_Off} Invalid database file!"
 else
-    json-server --watch database/${dbname} -H ${ip}
+    json-server --watch resources/${assets[$choose]}
 fi
