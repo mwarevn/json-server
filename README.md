@@ -16,7 +16,7 @@ npm install -g json-server
 ```
 
 ```
-git clone https://github.com/mwarevn/json-server.git && mv json-server/json-server-tools start && rm -rf json-server
+git clone https://github.com/mwarevn/json-server-tools.git && mv json-server-tools/json-server-tools start && rm -rf json-server
 ```
 
 
